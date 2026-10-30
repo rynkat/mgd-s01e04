@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { loadConfig, type RigConfig } from './config.js';
-import { readNight } from './digest/types.js';
+import { readNight } from './digest/reader.js';
 import { lane } from './lane.js';
 import { readStatus } from './status.js';
 import { DigestPage } from './views/digest.js';
@@ -11,6 +11,17 @@ export function createApp(config: RigConfig = loadConfig()) {
   const app = new Hono();
 
   app.get('/health', (c) => c.json({ ok: true, lane: lane().id }));
+
+  app.get('/api/digest/:night', (c) => {
+    try {
+      const digest = readNight(config.runsDir, c.req.param('night'));
+      digest.rows.sort((left, right) => left.job.localeCompare(right.job));
+      return c.json(digest);
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === 'ENOENT') return c.json({ error: 'night not found' }, 404);
+      throw error;
+    }
+  });
 
   app.get('/', (c) =>
     c.html(
