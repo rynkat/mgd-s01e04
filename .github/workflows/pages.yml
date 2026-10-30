@@ -1,0 +1,50 @@
+name: Publish digest preview
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Render marked digest
+        env:
+          LANE_MARKER: ${{ secrets.LANE_MARKER }}
+        run: |
+          mkdir _site
+          pnpm start &
+          server_pid=$!
+          trap 'kill $server_pid' EXIT
+          for attempt in {1..20}; do
+            curl --fail --silent http://localhost:8787/health >/dev/null && break
+            sleep 1
+          done
+          curl --fail http://localhost:8787/digest/2026-10-28 --output _site/index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
