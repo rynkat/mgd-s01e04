@@ -1,8 +1,9 @@
 ---
 plan: morning-digest
-status: ready
+status: done
 owner: rook
 opened: 2026-10-29
+closed: 2026-10-30
 ---
 
 # Morning digest
@@ -77,3 +78,16 @@ page again with `LANE_MARKER` unset (the banner reads "no marker set") and uploa
 link. Move this plan to `docs/plans/done/` with its issue list.
 
 Done when: the preview link no longer shows the lane marker.
+
+## Issues
+
+| # | Issue | Blocked by | Worker | Closed |
+|---|-------|------------|--------|--------|
+| [#1](https://github.com/rynkat/mgd-s01e04/issues/1) | Define digest contracts | — | OpenCode · github-copilot/gpt-5.6-sol · medium | 2026-10-30 |
+| [#2](https://github.com/rynkat/mgd-s01e04/issues/2) | Read and aggregate a night's run log | #1 | OpenCode · github-copilot/gpt-5.6-sol · high | 2026-10-30 |
+| [#3](https://github.com/rynkat/mgd-s01e04/issues/3) | Render the digest page | #1 | OpenCode worker · github-copilot/gpt-5.6-sol · medium | 2026-10-30 |
+| [#4](https://github.com/rynkat/mgd-s01e04/issues/4) | Serve digest JSON | #1 | OpenCode worker · github-copilot/gpt-5.6-sol · medium | 2026-10-30 |
+| [#5](https://github.com/rynkat/mgd-s01e04/issues/5) | Link status-board nights to digests | #1 | OpenCode worker · github-copilot/gpt-5.6-sol · medium | 2026-10-30 |
+| [#6](https://github.com/rynkat/mgd-s01e04/issues/6) | Test digest routes | #1 | OpenCode worker · github-copilot/gpt-5.6-sol · medium | 2026-10-30 |
+| [#7](https://github.com/rynkat/mgd-s01e04/issues/7) | Publish the marked review preview | #2–#6 | OpenCode · github-copilot/gpt-5.6-sol · medium | 2026-10-30 |
+| [#8](https://github.com/rynkat/mgd-s01e04/issues/8) | Remove marker and archive the plan | #7 | OpenCode · github-copilot/gpt-5.6-sol · medium | 2026-10-30 |

@@ -27,9 +27,7 @@ jobs:
         with:
           node-version: 22
       - run: pnpm install --no-frozen-lockfile
-      - name: Render marked digest
-        env:
-          LANE_MARKER: ${{ secrets.LANE_MARKER }}
+      - name: Render digest without lane marker
         run: |
           mkdir _site
           pnpm start &
